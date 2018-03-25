@@ -2,7 +2,12 @@
 #include <algorithm>
 
 quicksort::~quicksort(){
-  delete data;
+  delete[] data;
+  delete[] sortedData;
+}
+
+void quicksort::resetData(){
+  std::copy(data, data+dataSize, sortedData);
 }
 
 int quicksort::split(int A[], int lo, int hi){
@@ -21,18 +26,22 @@ int quicksort::split(int A[], int lo, int hi){
 void quicksort::sort(int A[], int lo, int hi){
   if(lo < hi){
     int s = split(A,lo,hi);
-    sort(A, lo, s - 1);
-    sort(A, s+1, hi);
+    this->sort(A, lo, s - 1);
+    this->sort(A, s+1, hi);
   }
 }
 
 void quicksort::run(){
-  sort(data,*data,data[dataSize-1]);
+  sort(sortedData,0,dataSize-1);
 }
 
 void quicksort::prepare(int size){
+  dataSize = size;
   data = new int[size];
-  for (int i=0; i<dataSize; ++i){
+  sortedData = new int[size];
+  srand(time(NULL));
+  for (int i=0; i< dataSize; ++i){
     data[i] = rand() % dataSize;
   }
+  resetData();
 }

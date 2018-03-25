@@ -2,8 +2,6 @@
 
 #include <chrono>
 
-//enum ProblemCase { BEST, AVERAGE, WORST };
-
 class IRunnable{
   public:
   virtual void run() = 0;
@@ -14,4 +12,9 @@ class IPreparable{
     virtual void prepare(int size)=0;
 };
 
-int mesureTime(IRunnable &prog);
+class Algorithm : public IRunnable, public IPreparable{
+  public:
+    virtual void resetData()=0;
+};
+
+int measureTime(Algorithm &prog);

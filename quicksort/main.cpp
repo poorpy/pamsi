@@ -1,26 +1,18 @@
 #include "quicksort.hpp"
-#include <iostream> 
-
-#define SMALL 10
-#define MEDIUM 100
-#define LARGE 1000 
-
+#include <fstream> 
 
 int main(){
-  quicksort* small = new quicksort;
-  small -> prepare(SMALL);
-  std::cout << "Unsorted:,";
-  for(int i=0; i < small->dataSize; ++i){
-    std::cout << small -> data[i] << ',';
-  }
-  std::cout << std::endl;
+  quicksort prog = quicksort();
 
-  small -> run();
+  std::fstream file;
+  file.open("duration.csv", std::fstream::out);
 
-  std::cout << "Sorted:,";
-  for(int i=0; i < small->dataSize; ++i){
-    std::cout << small -> data[i] << ',';
+  file << "Wiekość problemu,Czas trwania [us]" << std::endl;
+  int sizes[] = {10, 100, 1000, 10000, 100000, 1000000};
+  for(auto i : sizes){
+    prog.prepare(i);
+    file << i << ',' << measureTime(prog)  << std::endl;
   }
-  std::cout << std::endl;
+  file.close();
   return 0;
 }
