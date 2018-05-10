@@ -27,9 +27,8 @@ namespace bfs{
    *
    * @param graph Graph to be searched
    * @param start ID of starting vertex
-   * @param stop  ID of goal vertex
    *
-   * @return search tree
+   * @return struct containing MST and map of distance
    */
   //std::list<const Vertex&>
   bfs::TraverseData bfs ( Graph& graph, id_t start );
