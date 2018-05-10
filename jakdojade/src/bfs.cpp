@@ -46,17 +46,15 @@ bfs::TraverseData bfs::bfs( Graph& graph, id_t start ){
 }
 
 std::list<Vertex> bfs::buildPath( Graph & graph, id_t start, id_t stop ){
-  const Vertex & bVertex = graph.getVertex(start);
-  const Vertex & eVertex = graph.getVertex(stop);
-
   bfs::TraverseData pathData = bfs::bfs(graph, start);
   std::list<Vertex> pathList = {};
 
-  auto vertex = eVertex;
-  while(pathData.parentMap[vertex] != bVertex){
+  auto vertex = graph.getVertex(stop);
+  while( vertex != graph.getVertex(start)){
     pathList.push_front(vertex);
     vertex = pathData.parentMap[vertex];
   }
+  pathList.push_front(vertex);
 
   return pathList;
 }

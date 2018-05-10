@@ -15,7 +15,7 @@ Graph myGraph = Graph({
 
 std::cout << myGraph;
 
-auto myList = bfs::buildPath(myGraph, 1, 7);
+auto myList = bfs::buildPath(myGraph, 1, 8);
 
 for( auto & item : myList ){
   std::cout << item << std::endl;
