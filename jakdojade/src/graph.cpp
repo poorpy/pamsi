@@ -1,63 +1,59 @@
-#include "graph.hpp"
+#include "../inc/graph.hpp"
 #include <iomanip>
 #include <iostream>
 
-Vertex::Vertex(id_t newID, std::list<std::pair<id_t, weight>> newAdjacent){
-  id = newID;
-  for(auto id : newAdjacent){
-    adjacentIDs.emplace_back(id);
-  }
-}
 
-Vertex& Graph::getVertex(id_t id){
+auto Graph::getVertex(id_t id) const -> Vertex const &{
   auto findIter = std::find_if(vertices.begin(),vertices.end(),
-      [=] (Vertex& vertice) {return vertice.getID() == id; });
+      [=] (Vertex const & vertice) {return vertice.getID() == id; });
   return *findIter;
 }
 
 void Graph::addVertex(Vertex newVertex){
   vertices.emplace_back(newVertex);
-  adjacencyMatrix.emplace(std::pair<Vertex,std::map<Vertex,int>>(newVertex,{}));
+  adjacencyMatrix.emplace(std::pair<Vertex,std::map<Vertex, weight>>(newVertex,{}));
   for(auto const & vertex : vertices){
     adjacencyMatrix[vertex].insert({newVertex,0});
     adjacencyMatrix[newVertex].insert({vertex,0});
   }
-  updateMatrix();
 };
 
-void Graph::delVertex(id_t id){
-  for(auto & vertex : vertices){
-   vertex.delAdjacent(id);
-  }
-  adjacencyMatrix.erase(getVertex(id));
-  vertices.remove(getVertex(id));
-
+void Graph::addEdge(edge newEdge){
+  auto const & bVertex = this->getVertex( std::get<0>(newEdge) );
+  auto const & eVertex = this->getVertex( std::get<1>(newEdge) );
+  adjacencyMatrix[bVertex][eVertex] = std::get<2>( newEdge );
+  adjacencyMatrix[eVertex][bVertex] = std::get<2>( newEdge );
 }
 
-void Graph::updateMatrix(){
-  for(auto const & vertex : vertices){
-    for(auto adjacentID : vertex.getAdjacent()){
-      //TODO Throw exception and/or ask to fix data
-      //NOW  First edge overrides weight value to ensure symmetry
-      if(adjacencyMatrix[vertex][this->getVertex(adjacentID.first)]==0){
-        adjacencyMatrix[vertex][this->getVertex(adjacentID.first)]=adjacentID.second;
-        adjacencyMatrix[this->getVertex(adjacentID.first)][vertex] = adjacentID.second;
-      }
-    }
-  }
+void Graph::delVertex(id_t id){
+  adjacencyMatrix.erase(getVertex(id));
+  vertices.remove(getVertex(id));
+}
+
+void Graph::delEdge(id_t id1, id_t id2){
+  auto const & bVertex = this->getVertex(id1);
+  auto const & eVertex = this->getVertex(id2);
+  adjacencyMatrix[bVertex][eVertex] = 0;
+  adjacencyMatrix[eVertex][bVertex] = 0;
 }
 
 Graph::Graph(std::list<Vertex> newVertices){
   for(auto x : newVertices){
     vertices.emplace_back(x);
   }
+
   for(auto const & v1: newVertices){
     for(auto const & v2 : newVertices){
       adjacencyMatrix[v1][v2]=0;
     }
   }
-  updateMatrix();
 } 
+
+Graph::Graph(std::list<Vertex> newVertices, std::list<edge> newEdges) : Graph(std::move(newVertices)){
+  for( auto const & someEdge : newEdges ){
+    addEdge(someEdge);
+  }
+}
 
 std::ostream& operator << (std::ostream& outStream, const Vertex& vertex){
   outStream << vertex.getID();

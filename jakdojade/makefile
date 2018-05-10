@@ -8,7 +8,7 @@ jakdojade: obj obj/main.o obj/graph.o obj/bfs.o
 obj:
 	mkdir -p obj
 
-obj/main.o: src/main.cpp inc/graph.hpp inc/bfs.hpp 
+obj/main.o: src/main.cpp inc/graph.hpp inc/bfs.hpp
 	clang++ -c ${DEVFLAGS} -o obj/main.o src/main.cpp
 
 obj/graph.o: src/graph.cpp inc/graph.hpp
@@ -17,5 +17,5 @@ obj/graph.o: src/graph.cpp inc/graph.hpp
 obj/bfs.o: src/bfs.cpp inc/bfs.hpp
 	clang++ -c ${DEVFLAGS} -o obj/bfs.o src/bfs.cpp
 
-clean: 
-	rm -rf jakdojade obj/* || true 
+clean:
+	rm -rf jakdojade obj/* || true
