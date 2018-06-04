@@ -2,7 +2,6 @@
 #pragma once
 #include "graph.hpp"
 #include <queue>
-#include <optional>
 
 /**
  * @brief contains all of BFS-related stuff

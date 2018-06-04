@@ -3,7 +3,7 @@
  *  \author Bartosz Marczyński
  */
 
-//#pragma once
+#pragma once
 #include <map>
 #include <list>
 #include <iterator>

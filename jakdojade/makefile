@@ -2,8 +2,8 @@ DEVFLAGS = -g -Iinc -Wall -pedantic -std=c++17
 LINKFLAGS = -Wall -pedantic -std=c++17
 RELEASEFLAGS = -Iinc -Wall -pedantic -std=c++17
 
-jakdojade: obj obj/main.o obj/graph.o obj/bfs.o
-	clang++ ${LINKFLAGS} -o jakdojade obj/main.o obj/graph.o obj/bfs.o
+jakdojade: obj obj/main.o obj/graph.o obj/bfs.o obj/dfs.o
+	clang++ ${LINKFLAGS} -o jakdojade obj/main.o obj/graph.o obj/bfs.o obj/dfs.o
 
 obj:
 	mkdir -p obj
@@ -16,6 +16,9 @@ obj/graph.o: src/graph.cpp inc/graph.hpp
 
 obj/bfs.o: src/bfs.cpp inc/bfs.hpp
 	clang++ -c ${DEVFLAGS} -o obj/bfs.o src/bfs.cpp
+
+obj/dfs.o: src/dfs.cpp inc/dfs.hpp
+	clang++ -c ${DEVFLAGS} -o obj/dfs.o src/dfs.cpp
 
 clean:
 	rm -rf jakdojade obj/* || true
