@@ -2,14 +2,8 @@
 #include <limits>
 #include <iostream>
 
-dfs::TraverseData::TraverseData(std::map<Vertex,Vertex> newParentMap,
-    std::map<Vertex, int> newDistanceMap){
-  parentMap = std::move(newParentMap);
-  distanceMap = std::move(newDistanceMap);
-}
-
-dfs::TraverseData dfs::dfs( Graph& graph, id_t start ){
-  auto traverseData = dfs::TraverseData(); 
+TraverseData dfs::dfs( Graph& graph, id_t start ){
+  auto traverseData = TraverseData(); 
   std::map<Vertex, dfs::Color> colorMap = {};
 
   for( auto const & vertex : graph.getVertices() ){
@@ -46,7 +40,7 @@ dfs::TraverseData dfs::dfs( Graph& graph, id_t start ){
 }
 
 std::list<Vertex> dfs::buildPath( Graph & graph, id_t start, id_t stop ){
-  dfs::TraverseData pathData = dfs::dfs(graph, start);
+  TraverseData pathData = dfs::dfs(graph, start);
   std::list<Vertex> pathList = {};
   auto vertex = graph.getVertex(stop);
   while( vertex != graph.getVertex(start)){

@@ -2,14 +2,9 @@
 #include <limits>
 #include <functional>
 
-bfs::TraverseData::TraverseData(std::map<Vertex,Vertex> newParentMap,
-    std::map<Vertex, int> newDistanceMap){
-  parentMap = std::move(newParentMap);
-  distanceMap = std::move(newDistanceMap);
-}
 
-bfs::TraverseData bfs::bfs( Graph& graph, id_t start ){
-  auto traverseData = bfs::TraverseData(); 
+TraverseData bfs::bfs( Graph& graph, id_t start ){
+  auto traverseData = TraverseData(); 
   std::map<Vertex, bfs::Color> colorMap = {};
 
   for( auto const & vertex : graph.getVertices() ){
@@ -46,7 +41,7 @@ bfs::TraverseData bfs::bfs( Graph& graph, id_t start ){
 }
 
 std::list<Vertex> bfs::buildPath( Graph & graph, id_t start, id_t stop ){
-  bfs::TraverseData pathData = bfs::bfs(graph, start);
+  TraverseData pathData = bfs::bfs(graph, start);
   std::list<Vertex> pathList = {};
 
   auto vertex = graph.getVertex(stop);

@@ -4,21 +4,12 @@
 #include <queue>
 
 /**
- * @brief contains all of BFS-related stuff
+ * @brief contains whole of BFS-related stuff
  *
  * Namespace containing definitions of all BFS-related classes,functions and enums
  */
 namespace bfs{
   enum Color { white, gray, black };
-  struct TraverseData{
-
-    std::map<Vertex, Vertex> parentMap = {};
-    std::map<Vertex, int> distanceMap = {};
-
-    TraverseData() {};
-    TraverseData(std::map<Vertex,Vertex> newParentMap,
-        std::map<Vertex, int> newDistanceMap);
-  };
   /**
    * @brief breadth-first search function
    *
@@ -29,7 +20,16 @@ namespace bfs{
    *
    * @return struct containing MST and map of distance
    */
-  //std::list<const Vertex&>
-  bfs::TraverseData bfs ( Graph& graph, id_t start );
+  TraverseData bfs ( Graph& graph, id_t start );
+
+  /**
+   * @brief builds path from MST
+   *
+   * @param graph Graph to be searched
+   * @param start ID of starting vertex
+   * @param stop ID of final vertex
+   *
+   * @return list containing IDs of vertices on path 
+   */
   std::list<Vertex> buildPath( Graph & graph, id_t start, id_t stop );
 }

@@ -2,6 +2,11 @@
 #include <iomanip>
 #include <iostream>
 
+Vertex::Vertex( id_t newID, int newXPos, int newYPos ) {
+  id = newID;
+  xPos = newXPos;
+  yPos = newYPos;
+}
 
 auto Graph::getVertex(id_t id) const -> Vertex const &{
   auto findIter = std::find_if(vertices.begin(),vertices.end(),
@@ -53,6 +58,12 @@ Graph::Graph(std::list<Vertex> newVertices, std::list<edge> newEdges) : Graph(st
   for( auto const & someEdge : newEdges ){
     addEdge(someEdge);
   }
+}
+
+TraverseData::TraverseData(std::map<Vertex,Vertex> newParentMap,
+    std::map<Vertex, int> newDistanceMap){
+  parentMap = std::move(newParentMap);
+  distanceMap = std::move(newDistanceMap);
 }
 
 std::ostream& operator << (std::ostream& outStream, const Vertex& vertex){
