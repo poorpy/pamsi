@@ -2,8 +2,16 @@
 #include "graph.hpp"
 #include <stack>
 
+/**
+ * @brief contains whole of BFS-related stuff 
+ */
 namespace dfs{
   enum Color { white, gray, black };
-  TraverseData dfs ( Graph & graph, id_t start );
-  std::list<Vertex> buildPath ( Graph & graph, id_t start, id_t stop );
+  class DFS : public SearchAlgorithm{
+  private:
+    TraverseData dfs( Graph& graph, id_t start );
+  public:
+    DFS() {};
+    virtual TraverseData operator () ( Graph & graph, id_t start, id_t stop );
+  };
 }

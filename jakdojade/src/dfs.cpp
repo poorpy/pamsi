@@ -2,7 +2,7 @@
 #include <limits>
 #include <iostream>
 
-TraverseData dfs::dfs( Graph& graph, id_t start ){
+TraverseData dfs::DFS::dfs( Graph& graph, id_t start ){
   auto traverseData = TraverseData(); 
   std::map<Vertex, dfs::Color> colorMap = {};
 
@@ -39,14 +39,7 @@ TraverseData dfs::dfs( Graph& graph, id_t start ){
   return traverseData;
 }
 
-std::list<Vertex> dfs::buildPath( Graph & graph, id_t start, id_t stop ){
-  TraverseData pathData = dfs::dfs(graph, start);
-  std::list<Vertex> pathList = {};
-  auto vertex = graph.getVertex(stop);
-  while( vertex != graph.getVertex(start)){
-    pathList.push_front(vertex);
-    vertex = pathData.parentMap[vertex];
-  }
-  pathList.push_front(vertex);
-  return pathList;
+
+TraverseData dfs::DFS::operator()( Graph & graph, id_t start, id_t stop ){
+  return dfs::DFS::dfs(graph, start);
 }

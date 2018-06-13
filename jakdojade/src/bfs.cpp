@@ -3,7 +3,7 @@
 #include <functional>
 
 
-TraverseData bfs::bfs( Graph& graph, id_t start ){
+TraverseData bfs::BFS::bfs( Graph& graph, id_t start ){
   auto traverseData = TraverseData(); 
   std::map<Vertex, bfs::Color> colorMap = {};
 
@@ -40,16 +40,6 @@ TraverseData bfs::bfs( Graph& graph, id_t start ){
   return traverseData;
 }
 
-std::list<Vertex> bfs::buildPath( Graph & graph, id_t start, id_t stop ){
-  TraverseData pathData = bfs::bfs(graph, start);
-  std::list<Vertex> pathList = {};
-
-  auto vertex = graph.getVertex(stop);
-  while( vertex != graph.getVertex(start)){
-    pathList.push_front(vertex);
-    vertex = pathData.parentMap[vertex];
-  }
-  pathList.push_front(vertex);
-
-  return pathList;
+TraverseData bfs::BFS::operator()( Graph & graph, id_t start, id_t stop ){
+  return bfs::BFS::bfs(graph, start);
 }

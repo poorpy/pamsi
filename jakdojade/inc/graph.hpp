@@ -59,5 +59,15 @@ struct TraverseData{
       std::map<Vertex, int> newDistanceMap);
 };
 
+class SearchAlgorithm{
+  public:
+    SearchAlgorithm() {};
+    virtual TraverseData operator () ( Graph & graph, id_t start, id_t stop ) = 0;
+};
+
+std::list<Vertex> buildPath( Graph & graph, id_t start, id_t stop, 
+    SearchAlgorithm& searchAlgorithm );
+
+
 std::ostream& operator << (std::ostream& outStream, const Vertex& vertex);
 std::ostream& operator << (std::ostream& outStream, const Graph& graph);
