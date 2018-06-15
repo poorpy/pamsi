@@ -2,6 +2,7 @@ import xml.etree.ElementTree as ET
 from typing import List, Dict
 import datetime
 import glob
+import csv
 
 
 class Stop:
@@ -95,11 +96,6 @@ def parse_file(file) -> [Route]:
                             ),
                             new_id=int(stop.attrib['id'])
                         ))
-                        # print("\n",
-                              # stop.attrib, "\n",
-                              # stop[0][0][0].attrib, '\n',
-                              # stop[0][0][0][0].attrib
-                              # )
 
             routes.append(route)
         return routes
@@ -140,13 +136,46 @@ if __name__ == "__main__":
     merged_routes = merge_alliases(routes)
     print("Merged_routes:", len(merged_routes))
 
+    stops = {stop.stop_id: stop.name
+             for route in merged_routes for stop in route}
+
+    print("Stops:", len(stops))
+
     connections = generate_connections(merged_routes)
     print("Connections:", len(connections))
 
-    print("First connection:", connections[0])
-    print("Second connection:", connections[1])
-    print("Fifth connection:", connections[4])
-    # for index, route in enumerate(merged_routes):
-        # print("Route: ", index)
-        # for stop in route:
-            # print(stop)
+    with open("./data/connections.csv", "w") as f:
+        for connection in connections:
+            str_to_write = str(connection.stop_1.stop_id) + ',' +\
+                str(connection.stop_2.stop_id) + ',' + str(connection.weight)\
+                + ',' + '\n'
+            f.write(str_to_write)
+        f.close()
+
+    stop_coords: [(int, float, float)] = []
+    with open("./data/stops.csv") as stops_file:
+        reader = csv.DictReader(stops_file)
+        for row in reader:
+            stop_coords.append((
+                int(row['stop_code']),
+                float(row['stop_lat']),
+                float(row['stop_lon'])
+            ))
+    print("Number of stop coords:", len(stop_coords))
+
+    filtered_stops: [(str, int, float, float)] = []
+    for tp in stop_coords:
+        if tp[0] in stops and (stops[tp[0]], tp[0], tp[1], tp[2])\
+                not in filtered_stops:
+            filtered_stops.append((stops[tp[0]], tp[0], tp[1], tp[2]))
+
+    print("Number of filtered stops:", len(filtered_stops))
+
+    with open("./data/new_stops.csv", "w") as f:
+        for tp in filtered_stops:
+                f.write(str(tp[0]) + ',' +
+                        str(tp[1]) + ',' +
+                        str(tp[2]) + ',' +
+                        str(tp[3]) + ',' + '\n'
+                        )
+        f.close()

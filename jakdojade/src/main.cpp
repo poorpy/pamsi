@@ -1,39 +1,29 @@
 #include "../inc/bfs.hpp"
 #include "../inc/dfs.hpp"
 #include "../inc/aStar.hpp"
+#include "../inc/read.hpp"
+#include "../inc/io.hpp"
 #include <iostream>
 
 int main(){
+  std::string edgesFilePath = "./data/connections.csv",
+              graphFilePath = "./data/new_stops.csv",
+              delimeter = ",";
+
+  auto edgesList = parseFileToEdges(edgesFilePath, delimeter);
+  //std::cout << "Number of edges: " << edgesList.size() << std::endl;
+
+  Graph graph = parseFileToGraph(graphFilePath, delimeter);
+  //std::cout <<  "Number of vertices: " << graph.getVertices().size() << std::endl;
+
+  for ( auto const & item : edgesList ){
+    graph.addEdge(item);
+  }
+  astar::Astar aStar = astar::Astar();
+
+  listenAndExecute( std::cin, graph, aStar );
   
-Graph myGraph = Graph({
-  Vertex(1, 0, 0), Vertex(2, -1, -1), Vertex(3, -1, -3),
-  Vertex(4, 1, -3), Vertex(5, -1, -1), Vertex(6, -1, -2)},{
-  {1,2,2}, {1,5,2}, {2,6,3}, {6,3,3}, {3,4,2},
-  {4,5,2}});
 
-bfs::BFS myBFS = bfs::BFS();
-dfs::DFS myDFS = dfs::DFS();
-astar::Astar myAstar = astar::Astar();
 
-auto myList = buildPath(myGraph, 1, 3, myBFS);
-
-std::cout << "BFS: \n";
-for( auto & item : myList ){
-  std::cout << item << std::endl;
-}
-
-std::cout << "DFS: \n";
-
-myList = buildPath(myGraph, 1, 3, myDFS);
-
-for( auto & item : myList ){
-  std::cout << item << std::endl;
-}
-
-myList = buildPath(myGraph, 1, 3, myAstar);
-
-for( auto & item : myList ){
-  std::cout << item << std::endl;
-}
   return 0;
-}
+} 

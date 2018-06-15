@@ -17,14 +17,17 @@ typedef std::tuple<id_t, id_t, weight> edge;
 class Vertex{
   id_t id=0;/**< Vertex ID */
   float xPos = 0, yPos = 0; 
+  std::string name = {};
   public:
   id_t getID() const {return id;}
   float getX() const {return xPos;}
   float getY() const {return yPos;}
+  std::string getName() const {return name;}
 
   Vertex() = default;
   Vertex( id_t newID ) {id = newID;}
-  Vertex( id_t newID, int newXPos, int newYPos );
+  Vertex( id_t newID, float newXPos, float newYPos );
+  Vertex( id_t newID, float newXPos, float newYPos, std::string newName );
 
   inline bool operator < (const Vertex& vertex) const  { return id <  vertex.getID(); }
   inline bool operator == (const Vertex& vertex) const { return id == vertex.getID(); }
@@ -45,6 +48,7 @@ class Graph {
   auto const & getMatrix() const {return adjacencyMatrix;}
   auto const & getVertices() const {return vertices;}
 
+  Graph() = default;
   Graph(std::list<Vertex> newVertices);
   Graph(std::list<Vertex> newVertices, std::list<edge> newEdges);
 };

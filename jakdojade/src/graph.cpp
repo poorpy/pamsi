@@ -2,10 +2,17 @@
 #include <iomanip>
 #include <iostream>
 
-Vertex::Vertex( id_t newID, int newXPos, int newYPos ) {
+Vertex::Vertex( id_t newID, float newXPos, float newYPos ) {
   id = newID;
   xPos = newXPos;
   yPos = newYPos;
+}
+
+Vertex::Vertex( id_t newID, float newXPos, float newYPos, std::string newName ) {
+  id = newID;
+  xPos = newXPos;
+  yPos = newYPos;
+  name = std::move(newName);
 }
 
 auto Graph::getVertex(id_t id) const -> Vertex const &{
@@ -81,7 +88,7 @@ std::list<Vertex> buildPath( Graph & graph, id_t start, id_t stop,
   return pathList;
 }
 std::ostream& operator << (std::ostream& outStream, const Vertex& vertex){
-  outStream << vertex.getID();
+  outStream << "ID: " << vertex.getID() << " " << vertex.getName();
   return outStream;
 }
 
