@@ -87,7 +87,7 @@ def parse_file(file) -> [Route]:
                         # looks like nasty hack
                         # TODO maybe fix file or add conditional statement
                         # explanation: in files 24 is used istead of 00
-                        #              and I'm to lazy to fix them right now
+                        #              and I'm too lazy to fix them right now
                         route.append(Stop(
                             new_name=stop.attrib['nazwa'],
                             new_time=datetime.time(
